@@ -6,11 +6,13 @@ import boto3
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
+
 s3_client = boto3.client(
     's3',
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
+
 
 def list_files(bucket_name, prefix):
     print(f"Listing files in bucket: {bucket_name}, prefix: {prefix}")
@@ -24,6 +26,7 @@ def list_files(bucket_name, prefix):
     except Exception as e:
         print(f"Failed to list files: {e}")
 
+
 def upload_file(bucket_name, prefix, local_file_path):
     key = os.path.join(prefix, os.path.basename(local_file_path))
 
@@ -33,6 +36,7 @@ def upload_file(bucket_name, prefix, local_file_path):
         print("Upload completed.")
     except Exception as e:
         print(f"Failed to upload {local_file_path}: {e}")
+
 
 def list_files_with_filter(bucket_name, prefix, regex_pattern):
     print(f"Listing files matching pattern: {regex_pattern}")
@@ -46,6 +50,7 @@ def list_files_with_filter(bucket_name, prefix, regex_pattern):
             print("No files found.")
     except Exception as e:
         print(f"Failed to list files: {e}")
+
 
 def delete_files_matching_regex(bucket_name, prefix, regex_pattern):
     print(f"Deleting files matching pattern: {regex_pattern}")
@@ -61,6 +66,7 @@ def delete_files_matching_regex(bucket_name, prefix, regex_pattern):
             print("No files found.")
     except Exception as e:
         print(f"Error deleting files: {e}")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -93,6 +99,7 @@ def main():
         delete_files_matching_regex(args.bucket, args.prefix, args.delete)
     else:
         parser.print_help()
+
 
 if __name__ == "__main__":
     main()

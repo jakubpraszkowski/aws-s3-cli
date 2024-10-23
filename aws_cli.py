@@ -13,6 +13,7 @@ s3_client = boto3.client(
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
 
+
 def list_files():
     print("Listing files in bucket...")
     response = s3_client.list_objects_v2(Bucket=BUCKET_NAME, Prefix=PREFIX)
@@ -23,7 +24,21 @@ def list_files():
         print("No files found.")
 
 
+def upload_file(local_file_path):
+    key = os.path.join(PREFIX, os.path.basename(local_file_path))
+    
+    try:
+        print(f"Uploading {local_file_path} to {key}")
+        s3_client.upload_file(local_file_path, BUCKET_NAME, key)
+    
+    except Exception as e:
+        print(f"Failed to upload {local_file_path}: {e}")
+    
+    else:
+        print("Upload completed.")
+
 def main():
+    upload_file('README.md')
     list_files()
 
 
